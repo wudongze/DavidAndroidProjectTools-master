@@ -1,0 +1,124 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+/*    compileSdkVersion 23
+    buildToolsVersion "23.0.3"*/
+    defaultConfig {
+        applicationId "davidandroidprojecttools.qq986945193.com.davidandroidprojecttools"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        // dex突破65535的限制
+        multiDexEnabled true
+
+        /* 腾讯bugly升级的引用*/
+//        ndk {
+//            //设置支持的SO库架构
+//            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+//        }
+    }
+
+    /**
+     * 配置签名文件
+     */
+//    signingConfigs {
+//        davidConfig {
+//            /*keytool中生成证书的时候的随机值（别名）,*/
+//            keyAlias 'david'
+//            /*在签名过程中所需要的密钥*/
+//            keyPassword '123456'
+//            //根据自己电脑上的签名秘钥配置 keystore证书在磁盘中的位置
+//            storeFile file('D:/DavidAndroidProjectTools.jks')
+////            storeFile file('H:\\StudioWork\\DavidAndroidProjectTools\\app\\src\\main\\DavidAndroidProjectTools.jks')
+//            /*keystore证书的密码*/
+//            storePassword '123456'
+//        }
+//    }
+    /**
+     * 设置生成apk文件 一定要在signingConfigs下面
+     */
+    buildTypes {
+        release {
+            /* 属性minifyEnabled可以在打包的时候去除掉无用的代码，是否对代码混淆、压缩*/
+            minifyEnabled false
+            /*是否对资源压缩*/
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.davidConfig
+        }
+
+//        debug {
+//
+//            signingConfig signingConfigs.davidConfig
+//        }
+    }
+
+
+
+    productFlavors {
+    }
+    /**
+     * 解决错误：
+     * `Error:Execution failed for task ‘:app:lintVitalRelease’.
+     */
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:cardview-v7:23.1.0'
+    //Gson用来解析json
+    //    compile 'com.google.code.gson:gson:2.7'
+    //Picasso用来显示图片
+    //    compile 'com.squareup.picasso:picasso:2.3.2'
+    //Umeng统计引入工具  可以使用jar文件，这里使用gradle方式
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    //BadgeView的引入
+    compile files('libs/badgeview.jar')
+    //Gson解析工具的引入
+    compile files('libs/gson-2.3.1.jar')
+    //Picasso的引入
+    compile files('libs/picasso-2.5.2.jar')
+    //EventBus的引入
+    compile files('libs/eventbus-2.4.0.jar')
+    //Imageloader的引入
+    compile files('libs/universal-image-loader-1.9.4-with-sources.jar')
+    //volley的引入
+    compile files('libs/volly-1.0.11.jar')
+    //xutils引入
+    compile files('libs/xUtils-2.6.14.jar')
+    //zxing二维码的引入
+    compile files('libs/zxing.jar')
+    //glide的引用
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //Okhttp的引用
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    //fresco的引入
+    compile 'com.facebook.fresco:fresco:0.13.0'
+    /*引入multidex库文件*/
+    compile 'com.android.support:multidex:1.0.0'
+    /*增加注解的使用 butterknife*/
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
+    //增加这一句
+    /*使用一款开源的loading框架，要求最低sdk == 15*/
+    compile 'com.github.d-max:spots-dialog:0.7@aar'
+    /*引用高德地图的SDK进行定位*/
+    compile files('libs/AMap_Location_v2.3.0_20160112.jar')
+    /*注释掉原有bugly的仓库 腾讯bugly升级的引用*/
+    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如
+    //compile 'com.tencent.bugly:crashreport:latest.release'1.2.9
+    /*  其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.0.0*/
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+}
